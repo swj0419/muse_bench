@@ -32,10 +32,10 @@ This repository provides the original implementation of *Machine Unlearning Six-
 - [📘 Data & Target Models](#📘-data--target-models)
 - [🚀 Run Unlearning Baselines](#🚀-run-unlearning-baselines)
 - [🔍 Evaluation of Unlearned Models](#🔍-evaluation-of-unlearned-models)
-    - [**Knowledge Memorization (C2)**](#evaluate-the-knowledge-memorization-c2-and-identify-unlearned-checkpoints-with-optimal-forget-qualities)
-    - [**Verbatim Memorization (C1)**](#evaluate-verbatim-memorization-c1)
-    - [**Privacy Leakage (C3)**](#evaluate-privacy-leakage-c3)
-    - [**Scalability and Sustainability**](#evaluate-scalability-and-sustainability)
+    - [Knowledge Memorization (C2)](#evaluate-the-knowledge-memorization-c2-and-identify-unlearned-checkpoints-with-optimal-forget-qualities)
+    - [Verbatim Memorization (C1)](#evaluate-verbatim-memorization-c1)
+    - [Privacy Leakage (C3)](#evaluate-privacy-leakage-c3)
+    - [Scalability and Sustainability (C4 & C5)](#evaluate-scalability-and-sustainability)
 - [➕ Add to the Leaderboard](#➕-add-to-the-leaderboard)
 
 ## 🛠️ Installation
