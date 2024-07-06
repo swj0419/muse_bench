@@ -1,21 +1,44 @@
-# MUSE: Machine Unlearning Six-Way Evaluation for Language Models
+# <img alt="icon" src="figures/icon.png" height=30> MUSE: Machine Unlearning Six-Way Evaluation for Language Models
 
 This repository provides the original implementation of *Machine Unlearning Six-Way Evaluation for Language Models* by Weijia Shi*, Jaechan Lee*, Yangsibo Huang*, Sadhika Malladi, Jieyu Zhao, Ari Holtzman, Daogao Liu, Luke Zettlemoyer, Noah A. Smith, and Chiyuan Zhang. (*Equal contribution)
 
-<img alt="icon" src="figures/icon.png" height=150>
 
+[Website](https://muse-bench.github.io/) |  [Leaderboard](https://huggingface.co/spaces/chan030609/muse_leaderboard) | [MUSE-News Benchmark](https://huggingface.co/datasets/muse-bench/MUSE-News) | [MUSE-News Benchmark](https://huggingface.co/datasets/muse-bench/MUSE-News) |  [MUSE-Books Benchmark](https://huggingface.co/datasets/muse-bench/MUSE-Books) 
+
+
+## Overview
 **MUSE** is a comprehensive machine unlearning evaluation benchmark that assesses six desirable properties for unlearned models: (1) no verbatim memorization, (2) no knowledge memorization, (3) no privacy leakage, (4) utility preservation for non-removed data, (5) scalability with respect to removal requests, and (6) sustainability over sequential unlearning requests.
 
-## Content
-- [Setup](#setup)
-- [Unlearning](#unlearning)
-- [Evaluate the Knowledge Memorization (C2) and Identify Unlearned Checkpoints with Optimal Forget Qualities](#evaluate-the-knowledge-memorization-c2-and-identify-unlearned-checkpoints-with-optimal-forget-qualities)
-- [Evaluate Verbatim Memorization (C1)](#evaluate-verbatim-memorization-c1)
-- [Evaluate Privacy Leakage (C3)](#evaluate-privacy-leakage-c3)
-- [Evaluate Scalability and Sustainability](#evaluate-scalability-and-sustainability)
-- [Cite](#cite)
+<p align="center">
+  <img src="figures/main.png" width="80%" height="80%">
+</p>
 
-## Setup
+
+:star: If you find our implementation and paper helpful, please consider citing our work :star: :
+
+```bibtex
+@misc{shi2023detecting,
+    title={Detecting Pretraining Data from Large Language Models},
+    author={Weijia Shi and Anirudh Ajith and Mengzhou Xia and Yangsibo Huang and Daogao Liu and Terra Blevins and Danqi Chen and Luke Zettlemoyer},
+    year={2023},
+    eprint={2310.16789},
+    archivePrefix={arXiv},
+    primaryClass={cs.CL}
+}
+```
+
+## Content
+- [🛠️ Installation](#🛠️-installation)
+- [📘 Data & Target Models](#📘-data--target-models)
+- [🚀 Run Unlearning Baselines](#🚀-run-unlearning-baselines)
+- [🔍 Evaluation of Unlearned Models](#🔍-evaluation-of-unlearned-models)
+    - [Evaluate **Knowledge Memorization (C2)**](#evaluate-the-knowledge-memorization-c2-and-identify-unlearned-checkpoints-with-optimal-forget-qualities)
+    - [Evaluate **Verbatim Memorization (C1)**](#evaluate-verbatim-memorization-c1)
+    - [Evaluate **Privacy Leakage (C3)**](#evaluate-privacy-leakage-c3)
+    - [Evaluate **Scalability and Sustainability**](#evaluate-scalability-and-sustainability)
+- [➕ Add to the Leaderboard](#➕-add-to-the-leaderboard)
+
+## 🛠️ Installation
 
 ### Conda Environment
 
@@ -25,13 +48,33 @@ conda env create -f environment.yml
 conda activate py310
 ```
 
+## 📘 Data & Target Models
 ### Data
+Data is located in the `data` folder at the root of this repo. (Change this!!!)
 
-Data is located in the `data` folder at the root of this repo. It can also be found on [our HuggingFace datasets landing page](https://huggingface.co/muse-bench).
+| Domain | <div style="text-align: center">Target Model for Unlearning</div> | Dataset |
+|----------|:------------------------------:|----------| 
+| Books | [Target model](https://huggingface.co/muse-bench/MUSE-Books_target) | [Dataset](https://huggingface.co/datasets/muse-bench/MUSE-Books) | 
+| News | [Target model](https://huggingface.co/muse-bench/MUSE-News_target) | [Dataset](https://huggingface.co/datasets/muse-bench/MUSE-News) |
 
-## Unlearning
 
-To unlearn the target model using our baseline method, run `unlearn.py` in the `baselines` folder. Important parameters for `unlearn.py` include:
+
+## 🚀 Run unlearning baselines
+
+To unlearn the target model using our baseline method, run `unlearn.py` in the `baselines` folder. Example scripts `baselines/scripts/unlearn_bbc.sh` and `scripts/unlearn_hp.sh` in the `baselines` folder demonstrate the usage of `unlearn.py`. Here is an example:
+```bash
+algo="ga"
+CORPUS="bbc"
+
+python unlearn.py \
+        --algo $algo \
+        --model_dir $TARGET_DIR --tokenizer_dir 'meta-llama/Llama-2-7b-hf' \
+        --data_file $FORGET --retain_data_file $RETAIN \
+        --out_dir "./ckpt/$CORPUS/$algo" \
+        --max_len $MAX_LEN --epochs $EPOCHS --lr $LR \
+        --per_device_batch_size $PER_DEVICE_BATCH_SIZE
+```
+
 - `algo`: Unlearning algorithm to run (`ga`, `ga_gdr`, `ga_klr`, `npo`, `npo_gdr`, `npo_klr`, or `tv`).
 - `model_dir`: Directory of the target model.
 - `tokenizer_dir`: Directory of the tokenizer.
@@ -41,7 +84,8 @@ To unlearn the target model using our baseline method, run `unlearn.py` in the `
 - `max_len`: Maximum input length (default: 2048).
 - `per_device_batch_size`, `epochs`, `lr`: Hyperparameters.
 
-Example scripts `scripts/unlearn_bbc.sh` and `scripts/unlearn_hp.sh` in the `baselines` folder demonstrate the usage of `unlearn.py`. Resulting models are saved in the `ckpt` folder as shown:
+----
+**Resulting models are saved in the `ckpt` folder as shown:**
 ```
 ckpt
 ├── bbc/
@@ -56,8 +100,8 @@ ckpt
     ├── ga
     └── ...
 ```
-
-## Evaluate the Knowledge Memorization (C2) and Identify Unlearned Checkpoints with Optimal Forget Qualities
+# 🔍 Evaluation of Unlearned Models
+### Evaluate the Knowledge Memorization (C2) and Identify Unlearned Checkpoints with Optimal Forget Qualities
 
 The unlearning process above yields multiple model checkpoints, each with a different degree of unlearning. For iterative methods like `ga` and `npo`, the number of gradient update steps controls the degree of unlearning. For model editing methods like `tv` and `whp`, a hyperparameter $\alpha$ controls this degree. Running the following script selects a single checkpoint for each unlearning algorithm, an optimal one up to our stopping criteria:
 ```
@@ -118,7 +162,7 @@ Other parameters for `get_best_forget_quality.py` include:
 
 > If you find the expected folder structure of `get_best_forget_quality.py` for input (`ckpt`) and output (`knowmem/out`) too restrictive, see the `main` function inside `./knowmem/get_rouge_qa.py`, which we internally call and relaxes the I/O by accepting any unlearned checkpoint directory as an input and returning Python dictionaries that contain the output.
 
-## Evaluate Verbatim Memorization (C1)
+### Evaluate Verbatim Memorization (C1)
 
 To evaluate C1, run:
 ```
@@ -149,7 +193,7 @@ Other parameters include:
 
 > For more customized I/O, see the `main` function implemented in `verbmem/get_rouge.py`.
 
-## Evaluate Privacy Leakage (C3)
+### Evaluate Privacy Leakage (C3)
 
 To evaluate C3, run:
 ```
@@ -176,7 +220,7 @@ Other parameters include:
 
 > For more customized I/O, see the `main` function implemented in `privleak/get_ppl_utils.py`.
 
-## Evaluate Utility Preservation (C4)
+### Evaluate Utility Preservation (C4)
 
 To evaluate C4, run:
 ```
@@ -200,7 +244,7 @@ Other parameters include: `step_algos`, `alpha_algos`, `ckpt_dir`, `metric`, `ma
 
 > For more customized I/O, see the `main` function implemented in `knowmem/get_rouge_qa.py`.
 
-## Evaluate Scalability and Sustainability
+### Evaluate Scalability and Sustainability
 
 Example scripts `baselines/scripts/unlearn_bbc_scal.sh` and `baselines/scripts/unlearn_bbc_sust.sh` demonstrate unlearning for scalability and sustainability setups. The unlearned models for the folds 2, 3, and 4 (fold 1 is precisely the original forget set `data/raw/forget.json`) are expected to be stored in `ckpt`:
 ```
@@ -240,6 +284,4 @@ knowmem/out
         │   └── 4
         └── ...
 ```
-
-## Cite
-Please cite our work if you find our work useful.
+## ➕ Add to the Leaderboard
