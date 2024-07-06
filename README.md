@@ -32,10 +32,10 @@ This repository provides the original implementation of *Machine Unlearning Six-
 - [📘 Data & Target Models](#📘-data--target-models)
 - [🚀 Run Unlearning Baselines](#🚀-run-unlearning-baselines)
 - [🔍 Evaluation of Unlearned Models](#🔍-evaluation-of-unlearned-models)
-    - [Evaluate **Knowledge Memorization (C2)**](#evaluate-the-knowledge-memorization-c2-and-identify-unlearned-checkpoints-with-optimal-forget-qualities)
-    - [Evaluate **Verbatim Memorization (C1)**](#evaluate-verbatim-memorization-c1)
-    - [Evaluate **Privacy Leakage (C3)**](#evaluate-privacy-leakage-c3)
-    - [Evaluate **Scalability and Sustainability**](#evaluate-scalability-and-sustainability)
+    - [**Knowledge Memorization (C2)**](#evaluate-the-knowledge-memorization-c2-and-identify-unlearned-checkpoints-with-optimal-forget-qualities)
+    - [**Verbatim Memorization (C1)**](#evaluate-verbatim-memorization-c1)
+    - [**Privacy Leakage (C3)**](#evaluate-privacy-leakage-c3)
+    - [**Scalability and Sustainability**](#evaluate-scalability-and-sustainability)
 - [➕ Add to the Leaderboard](#➕-add-to-the-leaderboard)
 
 ## 🛠️ Installation
@@ -101,7 +101,7 @@ ckpt
     └── ...
 ```
 # 🔍 Evaluation of Unlearned Models
-### Evaluate the Knowledge Memorization (C2) and Identify Unlearned Checkpoints with Optimal Forget Qualities
+### Evaluate the Knowledge Memorization (C2) and Identify the Unlearned Checkpoints with Optimal Forget Qualities
 
 The unlearning process above yields multiple model checkpoints, each with a different degree of unlearning. For iterative methods like `ga` and `npo`, the number of gradient update steps controls the degree of unlearning. For model editing methods like `tv` and `whp`, a hyperparameter $\alpha$ controls this degree. Running the following script selects a single checkpoint for each unlearning algorithm, an optimal one up to our stopping criteria:
 ```
