@@ -95,16 +95,6 @@ def get_args():
         '--alpha', type=float, default=1.0,
         help="Scaling coefficient scales the task vector if algo is task vector (tv)."
     )
-
-    # # Knowledge neurons
-    # parser.add_argument(
-    #     '--integration_steps', type=int, default=20,
-    #     help="Number of integration steps if algo is knowledge neuron (kn)."
-    # )
-    # parser.add_argument(
-    #     '--adaptive_threshold', type=float, default=0.3,
-    #     help="Attribution scores are multiplied by this value if algo is knowledge neuron (kn)."
-    # )
     
     args = parser.parse_args()
 
