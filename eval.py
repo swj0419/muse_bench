@@ -2,6 +2,7 @@ from .metrics.verbmem import eval as eval_verbmem
 from .metrics.privleak import eval as eval_privleak
 from .metrics.knowmem import eval as eval_knowmem
 from .utils import load_model, write_csv, read_json, write_json
+from .constants import SUPPORTED_METRICS, CORPORA, LLAMA_DIR, DEFAULT_DATA, AUC_RETRAIN
 
 import os
 from transformers import LlamaForCausalLM, LlamaTokenizer
@@ -9,35 +10,9 @@ from typing import List, Dict, Literal
 from pandas import DataFrame
 
 
-SUPPORTED_METRICS = ['verbmem_f', 'privleak', 'knowmem_f', 'knowmem_r']
-CORPORA = ['news', 'books']
-DEFAULT_DATA = {
-    'news': {
-        'verbmem_forget_file': "data/news/verbmem/forget.json",
-        'privleak_forget_file': "data/news/privleak/forget.json",
-        'privleak_retain_file': "data/news/privleak/retain.json",
-        'privleak_holdout_file': "data/news/privleak/holdout.json",
-        'knowmem_forget_qa_file': None,
-        'knowmem_forget_qa_icl_file': None,
-        'knowmem_retain_qa_file': None,
-        'knowmem_retain_qa_icl_file': None,
-    },
-    'books': {
-        'verbmem_forget_file': "data/books/verbmem/forget.json",
-        'privleak_forget_file': "data/books/privleak/forget.json",
-        'privleak_retain_file': "data/books/privleak/retain.json",
-        'privleak_holdout_file': "data/books/privleak/holdout.json",
-        'knowmem_forget_qa_file': None,
-        'knowmem_forget_qa_icl_file': None,
-        'knowmem_retain_qa_file': None,
-        'knowmem_retain_qa_icl_file': None,
-    }
-}
-
-
 def eval_model(
     model: LlamaForCausalLM,
-    tokenizer: LlamaTokenizer,
+    tokenizer: LlamaTokenizer = LLAMA_DIR,
     metrics: List[str] = SUPPORTED_METRICS,
     corpus: Literal['news', 'books'] | None = None,
     privleak_auc_key: str = 'forget_holdout_Min-40%',
@@ -87,7 +62,7 @@ def eval_model(
         if temp_dir is not None:
             write_json(agg, os.path.join(temp_dir, "verbmem_f/agg.json"))
             write_json(log, os.path.join(temp_dir, "verbmem_f/log.json"))
-        out['verbmem_f'] = agg[verbmem_agg_key]
+        out['verbmem_f'] = agg[verbmem_agg_key] * 100
 
     # 2. privleak
     if 'privleak' in metrics:
@@ -100,7 +75,7 @@ def eval_model(
         if temp_dir is not None:
             write_json(auc, os.path.join(temp_dir, "privleak/auc.json"))
             write_json(log, os.path.join(temp_dir, "privleak/log.json"))
-        out['privleak'] = auc[privleak_auc_key]
+        out['privleak'] = (auc[privleak_auc_key] - AUC_RETRAIN[privleak_auc_key]) / AUC_RETRAIN[privleak_auc_key] * 100
 
     # 3. knowmem_f
     if 'knowmem_f' in metrics:
@@ -117,7 +92,7 @@ def eval_model(
         if temp_dir is not None:
             write_json(agg, os.path.join(temp_dir, "knowmem_f/agg.json"))
             write_json(log, os.path.join(temp_dir, "knowmem_f/log.json"))
-        out['knowmem_f'] = agg[knowmem_agg_key]
+        out['knowmem_f'] = agg[knowmem_agg_key] * 100
 
     # 4. knowmem_r
     if 'knowmem_r' in metrics:
@@ -134,7 +109,7 @@ def eval_model(
         if temp_dir is not None:
             write_json(agg, os.path.join(temp_dir, "knowmem_r/agg.json"))
             write_json(log, os.path.join(temp_dir, "knowmem_r/log.json"))
-        out['knowmem_r'] = agg[knowmem_agg_key]
+        out['knowmem_r'] = agg[knowmem_agg_key] * 100
 
     return out
 
@@ -143,6 +118,7 @@ def load_then_eval_models(
     model_dirs: List[str],
     names: List[str],
     corpus: Literal['news', 'books'],
+    tokenizer_dir: str = LLAMA_DIR,
     out_file: str | None = None,
     metrics: List[str] = SUPPORTED_METRICS,
     temp_dir: str = "temp"
@@ -159,7 +135,7 @@ def load_then_eval_models(
     out = []
     for model_dir, name in zip(model_dirs, names):
         model = load_model(model_dir)
-        tokenizer_
+        tokenizer = load_model(tokenizer_dir)
         res = eval_model(
             model, metrics, corpus,
             temp_dir=os.path.join(temp_dir, name)
@@ -174,7 +150,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_dirs', type=str, nargs='+', default=[])
     parser.add_argument('--names', type=str, nargs='+', default=[])
-    parser.add_argument('--tokenizer_dir', type=str, default="meta-llama/Llama-2-7b-hf")
+    parser.add_argument('--tokenizer_dir', type=str, default=LLAMA_DIR)
     parser.add_argument('--corpus', type=str, required=True, choices=CORPORA)
     parser.add_argument('--out_file', type=str, required=True)
     parser.add_argument('--metrics', type=str, nargs='+', default=SUPPORTED_METRICS)

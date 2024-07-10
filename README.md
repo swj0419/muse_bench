@@ -161,6 +161,6 @@ The function accepts the following arguments:
 
 </details>
 
-</details>
-
 ## ➕ Add to the Leaderboard
+
+
