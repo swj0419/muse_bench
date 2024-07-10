@@ -129,8 +129,6 @@ python eval.py \
   --out_file "out.csv"
 ```
 
-Here's the improved version of the documentation for customizing the evaluation:
-
 ## Customize Your Evaluation
 
 You may want to customize the evaluation for various reasons, such as:
