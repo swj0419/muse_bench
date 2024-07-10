@@ -3,3 +3,6 @@
 baselines/ckpt/*
 **/__pycache__
 internal
+**/.DS_Store
+**/.vscode
+data

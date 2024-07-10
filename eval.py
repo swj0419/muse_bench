@@ -1,7 +1,7 @@
 from .metrics.verbmem import eval as eval_verbmem
 from .metrics.privleak import eval as eval_privleak
 from .metrics.knowmem import eval as eval_knowmem
-from .utils import load_model, write_csv, read_json, write_json
+from .utils import load_model, load_tokenizer, write_csv, read_json, write_json
 from .constants import SUPPORTED_METRICS, CORPORA, LLAMA_DIR, DEFAULT_DATA, AUC_RETRAIN
 
 import os
@@ -135,9 +135,9 @@ def load_then_eval_models(
     out = []
     for model_dir, name in zip(model_dirs, names):
         model = load_model(model_dir)
-        tokenizer = load_model(tokenizer_dir)
+        tokenizer = load_tokenizer(tokenizer_dir)
         res = eval_model(
-            model, metrics, corpus,
+            model, tokenizer, metrics, corpus,
             temp_dir=os.path.join(temp_dir, name)
         )
         out.append({'name': name} | res)
