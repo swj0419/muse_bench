@@ -3,7 +3,7 @@
 This repository provides the original implementation of *Machine Unlearning Six-Way Evaluation for Language Models* by Weijia Shi*, Jaechan Lee*, Yangsibo Huang*, Sadhika Malladi, Jieyu Zhao, Ari Holtzman, Daogao Liu, Luke Zettlemoyer, Noah A. Smith, and Chiyuan Zhang. (*Equal contribution)
 
 
-[Paper]([https://muse-bench.github.io/](https://www.arxiv.org/abs/2407.06460)) | [Website](https://muse-bench.github.io/) |  [Leaderboard](https://huggingface.co/spaces/muse-bench/MUSE-Leaderboard) | [MUSE-News Benchmark](https://huggingface.co/datasets/muse-bench/MUSE-News) | [MUSE-News Benchmark](https://huggingface.co/datasets/muse-bench/MUSE-News) |  [MUSE-Books Benchmark](https://huggingface.co/datasets/muse-bench/MUSE-Books) 
+[Paper](https://www.arxiv.org/abs/2407.06460) | [Website](https://muse-bench.github.io/) |  [Leaderboard](https://huggingface.co/spaces/muse-bench/MUSE-Leaderboard) | [MUSE-News Benchmark](https://huggingface.co/datasets/muse-bench/MUSE-News) | [MUSE-News Benchmark](https://huggingface.co/datasets/muse-bench/MUSE-News) |  [MUSE-Books Benchmark](https://huggingface.co/datasets/muse-bench/MUSE-Books) 
 
 
 ## Overview
