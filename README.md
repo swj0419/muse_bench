@@ -16,13 +16,14 @@ This repository provides the original implementation of *Machine Unlearning Six-
 :star: If you find our implementation and paper helpful, please consider citing our work :star: :
 
 ```bibtex
-@misc{shi2023detecting,
-    title={Detecting Pretraining Data from Large Language Models},
-    author={Weijia Shi and Anirudh Ajith and Mengzhou Xia and Yangsibo Huang and Daogao Liu and Terra Blevins and Danqi Chen and Luke Zettlemoyer},
-    year={2023},
-    eprint={2310.16789},
-    archivePrefix={arXiv},
-    primaryClass={cs.CL}
+@article{shi2024muse,
+        title={MUSE: Machine Unlearning Six-Way Evaluation for Language Models},
+        author={Weijia Shi and Jaechan Lee and Yangsibo Huang and Sadhika Malladi and Jieyu Zhao and Ari Holtzman and Daogao Liu and Luke Zettlemoyer and Noah A. Smith and Chiyuan Zhang},
+        year={2024},
+        eprint={2407.06460},
+        archivePrefix={arXiv},
+        primaryClass={cs.CL},
+        url={https://arxiv.org/abs/2407.06460},
 }
 ```
 
