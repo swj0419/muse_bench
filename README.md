@@ -5,7 +5,7 @@ This repository provides the original implementation of *Machine Unlearning Six-
 
 [Paper](https://www.arxiv.org/abs/2407.06460) | [Website](https://muse-bench.github.io/) |  [Leaderboard](https://huggingface.co/spaces/muse-bench/MUSE-Leaderboard) | [MUSE-News Benchmark](https://huggingface.co/datasets/muse-bench/MUSE-News) | [MUSE-News Benchmark](https://huggingface.co/datasets/muse-bench/MUSE-News) |  [MUSE-Books Benchmark](https://huggingface.co/datasets/muse-bench/MUSE-Books) 
 
-🎉 We’re excited to share that MUSE is now integrated into open-unlearning. Please use it for evaluation.
+🎉 Happy to share that MUSE is now incorporated into [open-ulearning](https://github.com/locuslab/open-unlearning). Please use it for evaluation.
 
 
 ## Overview
