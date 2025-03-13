@@ -5,6 +5,8 @@ This repository provides the original implementation of *Machine Unlearning Six-
 
 [Paper](https://www.arxiv.org/abs/2407.06460) | [Website](https://muse-bench.github.io/) |  [Leaderboard](https://huggingface.co/spaces/muse-bench/MUSE-Leaderboard) | [MUSE-News Benchmark](https://huggingface.co/datasets/muse-bench/MUSE-News) | [MUSE-News Benchmark](https://huggingface.co/datasets/muse-bench/MUSE-News) |  [MUSE-Books Benchmark](https://huggingface.co/datasets/muse-bench/MUSE-Books) 
 
+🎉 We’re excited to share that MUSE is now integrated into open-unlearning. Please use it for evaluation.
+
 
 ## Overview
 **MUSE** is a comprehensive machine unlearning evaluation benchmark that assesses six desirable properties for unlearned models: (1) no verbatim memorization, (2) no knowledge memorization, (3) no privacy leakage, (4) utility preservation for non-removed data, (5) scalability with respect to removal requests, and (6) sustainability over sequential unlearning requests.
